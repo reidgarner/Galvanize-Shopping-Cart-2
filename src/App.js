@@ -53,7 +53,7 @@ class App extends Component {
           product: { 
             id: 40, 
             name: this.state.value, 
-            priceInCents: '$' + (price[0].priceInCents/100)
+            priceInCents: '$' + (price[0].priceInCents.toFixed(2)/100)
           }, 
             quantity: this.state.quantity 
           }
