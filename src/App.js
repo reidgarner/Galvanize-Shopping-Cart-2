@@ -28,9 +28,11 @@ class App extends Component {
         { id: 48, name: 'Awesome Leather Shoes', priceInCents: 3990 },
       ],
       quantity: 0,
-      value: ""
+      value: "",
+      total: 0
     }
   }
+
       handleChangeQuantity = (event) => {
         this.setState({
           quantity: event.target.value
@@ -45,11 +47,7 @@ class App extends Component {
       
       handleClick = (event) => {
         event.preventDefault();
-        const price = this.state.products.filter( product => {
-          if (this.state.value === product.name){
-            return product.priceInCents
-          }
-        })
+        const price = this.state.products.filter(product => this.state.value === product.name)
         var newItem = { 
           id: this.state.cartItemsList.length + 1, 
           product: { 
@@ -59,7 +57,8 @@ class App extends Component {
           }, 
             quantity: this.state.quantity 
           }
-          this.setState({cartItemsList: [...this.state.cartItemsList, newItem]})
+          var newTotal = (price[0].priceInCents/100) * this.state.quantity
+          this.setState({cartItemsList: [...this.state.cartItemsList, newItem], total: (this.state.total + newTotal)})
       }
 
   render() {
@@ -67,7 +66,7 @@ class App extends Component {
       <div className="App">
         <CartHeader />
         <CartItems cartItemsList = {this.state.cartItemsList}/>
-        <AddItem products = {this.state.products} handleChangeQuantity = {this.handleChangeQuantity} handleChange = {this.handleChange} handleClick = {this.handleClick}/>
+        <AddItem total = {this.state.total} products = {this.state.products} handleChangeQuantity = {this.handleChangeQuantity} handleChange = {this.handleChange} handleClick = {this.handleClick}/>
         <CartFooter copyright = {this.state.copyright}/>
       </div>
     );
